@@ -32,7 +32,7 @@ _build_moby() {
     grep 'VERSION=' hack/make.sh
     echo
     make binary
-    /bin/cp -fr bundles/binary/* /tmp/_output_assets/binary/
+    /bin/cp -vfr bundles/binary/* /tmp/_output_assets/binary/
     sleep 1
     cd /tmp
     /bin/rm -fr "${_tmp_dir}"
@@ -53,7 +53,7 @@ _build_docker_cli() {
     git checkout "${_cli_tag}"
     export VERSION="${_cli_tag#v}"
     docker buildx bake
-    /bin/cp -fr build/docker-linux-amd64 /tmp/_output_assets/binary/docker
+    /bin/cp -vfr build/docker-linux-amd64 /tmp/_output_assets/binary/docker
     sleep 1
     cd /tmp
     rm -fr "${_tmp_dir}"
@@ -85,7 +85,7 @@ else
 fi
 
 cd /tmp/_output_assets
-/bin/ls -la --color binary
+/bin/ls -la binary
 /bin/mkdir -p usr/libexec/docker/cli-plugins etc/docker
 /bin/cp -fr binary usr/bin
 
@@ -96,7 +96,7 @@ cd tini
 _tini_ver="$(wget -qO- 'https://github.com/krallin/tini/releases' | grep -i 'tini-amd64' | grep -i 'href="/krallin/tini/releases/download' | sed 's|"|\n|g' | grep -i '/krallin/tini/releases/download' | grep -ivE 'alpha|beta|rc' | sed -e 's|.*download/||g' -e 's|/t.*||g' | sort -V | uniq | tail -n 1)"
 wget -c -t 9 -T 9 "https://github.com/krallin/tini/releases/download/${_tini_ver}/tini-static-amd64"
 sleep 1
-install -c -m 0755 tini-static-amd64 ../usr/bin/docker-init
+install -v -c -m 0755 tini-static-amd64 ../usr/bin/docker-init
 sleep 1
 cd ..
 /bin/rm -fr tini
@@ -119,7 +119,7 @@ fi
 sleep 1
 /bin/rm -f *.sha*
 echo
-install -c -m 0755 docker-compose-linux-x86_64 ../usr/libexec/docker/cli-plugins/docker-compose
+install -v -c -m 0755 docker-compose-linux-x86_64 ../usr/libexec/docker/cli-plugins/docker-compose
 sleep 1
 cd ..
 /bin/rm -fr compose
@@ -131,7 +131,7 @@ cd buildx
 _buildx_ver="$(wget -qO- 'https://github.com/docker/buildx/releases' | grep -i 'a href="/docker/buildx/releases/download/' | sed 's|"|\n|g' | grep -i '^/docker/buildx/releases/download/.*linux-amd64.*' | grep -ivE 'alpha|beta|rc[0-9]' | sed -e 's|.*/buildx-v||g' -e 's|\.linux.*||g' | sort -V | uniq | tail -n 1)"
 wget -q -c -t 0 -T 9 "https://github.com/docker/buildx/releases/download/v${_buildx_ver}/buildx-v${_buildx_ver}.linux-amd64"
 sleep 1
-install -c -m 0755 "buildx-v${_buildx_ver}.linux-amd64" ../usr/libexec/docker/cli-plugins/docker-buildx
+install -v -c -m 0755 "buildx-v${_buildx_ver}.linux-amd64" ../usr/libexec/docker/cli-plugins/docker-buildx
 sleep 1
 cd ..
 /bin/rm -fr buildx
