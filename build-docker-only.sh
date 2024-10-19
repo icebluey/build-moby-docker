@@ -26,7 +26,11 @@ _build_moby() {
     _docker_tag=$(git tag | grep "v${_major}\.${_minor}" | sort -V | tail -n 1)
     _moby_tag=${_docker_tag:-$(git tag | grep -ivE 'alpha|beta|rc|doc' | grep -i '^[Vv][0-9]' | sort -V | tail -n 1)}
     git checkout "${_moby_tag}"
-    sed 's#VERSION=${VERSION:-dev}#VERSION=${VERSION:-$(git describe --match '\''v[0-9]*'\'' --dirty='\''.m'\'' --always --tags | sed '\''s/^v//'\'' 2>/dev/null || echo "unknown-version" )}#g' -i hack/make.sh
+    export VERSION="${_moby_tag#v}"
+    sed 's#VERSION=${VERSION:-dev.*#VERSION=${VERSION:-$(git describe --match '\''v[0-9]*'\'' --always --tags | sed '\''s/^v//'\'' 2>/dev/null || echo "unknown-version")}#g' -i hack/make.sh
+    echo
+    grep 'VERSION=' hack/make.sh
+    echo
     make binary
     /bin/cp -fr bundles/binary/* /tmp/_output_assets/binary/
     sleep 1
@@ -34,6 +38,7 @@ _build_moby() {
     /bin/rm -fr "${_tmp_dir}"
     /bin/rm -fr /tmp/.moby_ver
     echo "${_moby_tag#v}" > /tmp/.moby_ver
+    export VERSION=''
 }
 
 _build_docker_cli() {
@@ -46,6 +51,7 @@ _build_docker_cli() {
     _docker_tag=$(git tag | grep "v${_major}\.${_minor}" | sort -V | tail -n 1)
     _cli_tag=${_docker_tag:-$(git tag | grep -ivE 'alpha|beta|rc|doc' | grep -i '^[Vv][0-9]' | sort -V | tail -n 1)}
     git checkout "${_cli_tag}"
+    export VERSION="${_cli_tag#v}"
     docker buildx bake
     /bin/cp -fr build/docker-linux-amd64 /tmp/_output_assets/binary/docker
     sleep 1
@@ -53,6 +59,7 @@ _build_docker_cli() {
     rm -fr "${_tmp_dir}"
     /bin/rm -fr /tmp/.cli_ver
     echo "${_cli_tag#v}" > /tmp/.cli_ver
+    export VERSION=''
 }
 
 _reset_docker() {
