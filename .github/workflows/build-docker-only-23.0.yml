@@ -31,7 +31,7 @@ jobs:
           _release_ver="v$(cat /tmp/.moby_ver)"
           echo "_release_ver=${_release_ver}" >> $GITHUB_ENV
 
-      - name: Release
+      - name: Upload files
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env._release_ver }}
