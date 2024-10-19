@@ -22,7 +22,7 @@ jobs:
 
       - name: Build docker 23.0
         run: |
-          sudo /bin/bash build-docker.sh '23.0'
+          sudo /bin/bash build-docker-only.sh '23.0'
           sudo /bin/systemctl stop docker.socket docker.service containerd.service
           sudo /bin/rm -fr /var/lib/docker/* /var/lib/containerd/* /mnt/docker-data/*
 
