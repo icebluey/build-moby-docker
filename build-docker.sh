@@ -63,7 +63,7 @@ _reset_docker() {
     /bin/systemctl start docker.service
 }
 
-mkdir -p /tmp/_output_assets
+mkdir -p /tmp/_output_assets/binary
 _build_moby
 _reset_docker
 _build_docker_cli
@@ -78,6 +78,7 @@ else
 fi
 
 cd /tmp/_output_assets
+/bin/ls -la --color binary
 /bin/mkdir -p usr/libexec/docker/cli-plugins etc/docker
 /bin/cp -fr binary usr/bin
 
