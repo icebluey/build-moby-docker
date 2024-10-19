@@ -216,9 +216,9 @@ echo '{
     "native.cgroupdriver=systemd"
   ],
   "storage-driver": "overlay2"
-}' > etc/docker/daemon.json
+}' > etc/docker/daemon.json.default
 sleep 1
-chmod 0644 etc/docker/daemon.json
+chmod 0644 etc/docker/daemon.json.default
 
 ##############################################################################
 
@@ -230,6 +230,7 @@ rm -f /lib/systemd/system/docker.socket
 install -v -c -m 0644 docker.service /lib/systemd/system/
 install -v -c -m 0644 docker.socket /lib/systemd/system/
 getent group docker >/dev/null 2>&1 || groupadd -r docker
+[[ -f /etc/docker/daemon.json ]] || /bin/cp -v /etc/docker/daemon.json.default /etc/docker/daemon.json
 [[ -d /var/lib/docker ]] || install -m 0710 -d /var/lib/docker && chown root:root /var/lib/docker
 [[ -d /var/lib/docker-engine ]] || install -m 0755 -d /var/lib/docker-engine && chown root:root /var/lib/docker-engine
 [[ -f /var/lib/docker-engine/distribution_based_engine.json ]] || \
