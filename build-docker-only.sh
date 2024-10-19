@@ -269,12 +269,13 @@ find usr/libexec/docker/cli-plugins/ -type f -exec file '{}' \; | sed -n -e 's/^
 
 echo
 sleep 2
-tar --format=gnu -cf - usr etc | xz --threads=2 -v -f -z -9 > "docker-only-${_docker_ver}-1_amd64.tar.xz"
+tar --format=gnu -Jcvf "docker-only-${_docker_ver}-1_amd64.tar.xz" usr etc
+#tar --format=gnu -cf - usr etc | xz --threads=2 -v -f -z -9 > "docker-only-${_docker_ver}-1_amd64.tar.xz"
 echo
 sleep 2
 sha256sum "docker-only-${_docker_ver}-1_amd64.tar.xz" > "docker-only-${_docker_ver}-1_amd64.tar.xz".sha256
 sleep 2
-/bin/rm -fr usr etc
+/bin/rm -fr usr etc binary
 echo
 echo '/tmp/_output_assets:'
 /bin/ls -la --color /tmp/_output_assets
