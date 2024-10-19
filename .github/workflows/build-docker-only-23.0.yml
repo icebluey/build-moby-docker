@@ -1,4 +1,4 @@
-name: build-docker-23.0
+name: build-docker-only-23.0
 on:
   #push:
   #  branches: [ "master" ]
@@ -20,7 +20,7 @@ jobs:
           sudo apt upgrade -y -qqq
           sudo /bin/bash scripts/install-docker.sh
 
-      - name: Build docker 23.0
+      - name: Build docker only 23.0
         run: |
           sudo /bin/bash build-docker-only.sh '23.0'
           sudo /bin/systemctl stop docker.socket docker.service containerd.service
