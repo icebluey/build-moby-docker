@@ -283,9 +283,6 @@ sleep 2
 sha256sum "docker-only-${_docker_ver}-1_amd64.tar.xz" > "docker-only-${_docker_ver}-1_amd64.tar.xz".sha256
 sleep 2
 /bin/rm -fr usr etc binary
-echo
-echo '/tmp/_output_assets:'
-/bin/ls -la --color /tmp/_output_assets
 echo ' done'
 exit
 
