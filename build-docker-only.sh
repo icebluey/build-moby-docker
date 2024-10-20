@@ -220,6 +220,22 @@ echo '{
 sleep 1
 chmod 0644 etc/docker/daemon.json.example
 
+echo '{
+  "dns": [
+    "8.8.8.8"
+  ],
+  "exec-opts": [
+    "native.cgroupdriver=systemd"
+  ],
+  "storage-driver": "overlay2",
+  "data-root": "/var/lib/docker",
+  "insecure-registries": [
+    "10.10.10.10:443"
+  ]
+}' > etc/docker/daemon.json.example2
+sleep 1
+chmod 0644 etc/docker/daemon.json.example2
+
 ##############################################################################
 
 echo '
