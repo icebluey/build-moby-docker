@@ -255,6 +255,7 @@ install -v -c -m 0644 docker.socket /lib/systemd/system/
 getent group docker >/dev/null 2>&1 || groupadd -r docker
 sleep 1
 /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+if ! $(/sbin/sysctl -a 2>/dev/null | grep -q -i "net.bridge.bridge-nf-call-iptables"); then modprobe br_netfilter; fi
 ' > etc/docker/.install.txt
 sleep 1
 chmod 0644 etc/docker/.install.txt
