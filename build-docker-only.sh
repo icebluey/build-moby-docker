@@ -23,7 +23,7 @@ _build_moby() {
     cd "${_tmp_dir}"
     git clone 'https://github.com/moby/moby.git'
     cd moby
-    _docker_tag=$(git tag | grep "v${_major}\.${_minor}" | sort -V | tail -n 1)
+    _docker_tag=$(git tag | grep -ivE 'alpha|beta|rc|doc' | grep "v${_major}\.${_minor}" | sort -V | tail -n 1)
     _moby_tag=${_docker_tag:-$(git tag | grep -ivE 'alpha|beta|rc|doc' | grep -i '^[Vv][0-9]' | sort -V | tail -n 1)}
     git checkout "${_moby_tag}"
     export VERSION="${_moby_tag#v}"
@@ -48,7 +48,7 @@ _build_docker_cli() {
     cd "${_tmp_dir}"
     git clone 'https://github.com/docker/cli.git'
     cd cli
-    _docker_tag=$(git tag | grep "v${_major}\.${_minor}" | sort -V | tail -n 1)
+    _docker_tag=$(git tag | grep -ivE 'alpha|beta|rc|doc' | grep "v${_major}\.${_minor}" | sort -V | tail -n 1)
     _cli_tag=${_docker_tag:-$(git tag | grep -ivE 'alpha|beta|rc|doc' | grep -i '^[Vv][0-9]' | sort -V | tail -n 1)}
     git checkout "${_cli_tag}"
     export VERSION="${_cli_tag#v}"
