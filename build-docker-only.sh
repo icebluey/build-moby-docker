@@ -8,7 +8,7 @@ export CC
 CXX=g++
 export CXX
 
-# _docker_mainline='27.3'
+# _docker_mainline='27.4'
 _docker_mainline="${1}"
 _major=$(echo ${_docker_mainline} | awk -F\. '{print $1}')
 _minor=$(echo ${_docker_mainline} | awk -F\. '{print $2}')
