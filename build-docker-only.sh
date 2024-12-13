@@ -128,7 +128,7 @@ cd ..
 # docker-buildx
 mkdir buildx
 cd buildx
-_buildx_ver="$(wget -qO- 'https://github.com/docker/buildx/releases' | grep -i 'a href="/docker/buildx/releases/download/' | sed 's|"|\n|g' | grep -i '^/docker/buildx/releases/download/.*linux-amd64.*' | grep -ivE 'alpha|beta|rc[0-9]' | sed -e 's|.*/buildx-v||g' -e 's|\.linux.*||g' | sort -V | uniq | tail -n 1)"
+_buildx_ver="$(wget -qO- 'https://github.com/docker/buildx/releases' | grep -i 'a href="/docker/buildx/releases/download/' | sed 's|"|\n|g' | grep -i '^/docker/buildx/releases/download/.*darwin' | grep -ivE 'alpha|beta|rc[0-9]' | sed -e 's|.*/buildx-v||g' -e 's|\.darwin.*||g' | sort -V | uniq | tail -n 1)"
 wget -q -c -t 0 -T 9 "https://github.com/docker/buildx/releases/download/v${_buildx_ver}/buildx-v${_buildx_ver}.linux-amd64"
 sleep 1
 install -v -c -m 0755 "buildx-v${_buildx_ver}.linux-amd64" ../usr/libexec/docker/cli-plugins/docker-buildx
